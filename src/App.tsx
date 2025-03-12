@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import RevenueOverview from './components/RevenueOverview'
 import QuotationsSection from './components/QuotationsSection'
+import Navigation from './components/Navigation'
 
 function App() {
   const [currentView] = useState('dashboard')
 
   return (
-    <div className="p-4">
+    <div className="p-4 pl-20"> {/* Added left padding to prevent content overlap */}
+      <Navigation />
+      
       {currentView === 'dashboard' && (
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
