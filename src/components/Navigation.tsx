@@ -1,52 +1,68 @@
-import React, { useState } from 'react'
-import { Menu, X, LayoutDashboard, Users, FileText, FileSignature, Settings } from 'lucide-react'
+import { useState } from 'react'
+import { Menu, X, Home, Users, FileText, File, Settings } from 'lucide-react'
 
-const Navigation = () => {
+const navigation = [
+  { name: 'Dashboard', href: '/', icon: Home },
+  { name: 'Clients', href: '/clients', icon: Users },
+  { name: 'Invoices', href: '/invoices', icon: FileText },
+  { name: 'Quotations', href: '/quotations', icon: File },
+  { name: 'Settings', href: '/settings', icon: Settings }
+]
+
+export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const menuItems = [
-    { name: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { name: 'Clients', icon: <Users className="w-5 h-5" /> },
-    { name: 'Invoices', icon: <FileText className="w-5 h-5" /> },
-    { name: 'Quotations', icon: <FileSignature className="w-5 h-5" /> },
-    { name: 'Settings', icon: <Settings className="w-5 h-5" /> }
-  ]
-
   return (
-    <>
-      {/* Menu Toggle Button */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50"
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+    <nav className="bg-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          {/* Mobile menu button */}
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 focus:outline-none"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
 
-      {/* Navigation Menu */}
-      <div className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-40 ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="p-6 border-b">
-          <h2 className="text-xl font-bold">Invoice App</h2>
-        </div>
-        <nav className="p-4">
-          <ul className="space-y-2">
-            {menuItems.map((item, index) => (
-              <li key={index}>
-                <a 
-                  href="#"
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 hover:text-gray-900"
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </a>
-              </li>
+          {/* Desktop menu */}
+          <div className="hidden md:flex space-x-8">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              >
+                <item.icon className="mr-2 h-5 w-5" />
+                {item.name}
+              </a>
             ))}
-          </ul>
-        </nav>
+          </div>
+        </div>
       </div>
-    </>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              >
+                <item.icon className="mr-2 h-5 w-5" />
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
   )
 }
-
-export default Navigation
